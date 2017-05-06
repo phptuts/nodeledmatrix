@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Matrix Controller</title>
+
+    <style>
+        table#matrix-table {
+            width: 600px;
+            margin: 10px auto;
+        }
+        td {
+            width: 75px;
+            height: 75px;
+            border: solid gray 1px;
+        }
+        .red {
+            background-color: red;
+        }
+        #word-container {
+            width: 600px;
+            margin: 0 auto;
+        }
+        #word-container input {
+            width: 370px;
+            height: 30px;
+            border-radius: 5px;
+            font-size: 20px;
+        }
+        h2 {
+            display: inline;
+            font-family: cursive;
+            font-size: 30px;
+        }
+        #clear-all {
+            float: right;
+            display: inline;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: darkred;
+            color: white;
+            border-radius: 5px;
+            border-color: rgba(204, 95, 95, .4);
+        }
+    </style>
+</head>
+<body >
+
+    <div id="word-container">
+        <h2>Led Matrix Control</h2>
+        <button type="button" id="clear-all">Clear All</button>
+    </div>
+
+    <table id="matrix-table">
+        <tbody>
+            <tr>
+                <td data-row="0" data-column="0"></td>
+                <td data-row="0" data-column="1"></td>
+                <td data-row="0" data-column="2"></td>
+                <td data-row="0" data-column="3"></td>
+                <td data-row="0" data-column="4"></td>
+                <td data-row="0" data-column="5"></td>
+                <td data-row="0" data-column="6"></td>
+                <td data-row="0" data-column="7"></td>
+            </tr>
+            <tr>
+                <td data-row="1" data-column="0"></td>
+                <td data-row="1" data-column="1"></td>
+                <td data-row="1" data-column="2"></td>
+                <td data-row="1" data-column="3"></td>
+                <td data-row="1" data-column="4"></td>
+                <td data-row="1" data-column="5"></td>
+                <td data-row="1" data-column="6"></td>
+                <td data-row="1" data-column="7"></td>
+            </tr>
+            <tr>
+                <td data-row="2" data-column="0"></td>
+                <td data-row="2" data-column="1"></td>
+                <td data-row="2" data-column="2"></td>
+                <td data-row="2" data-column="3"></td>
+                <td data-row="2" data-column="4"></td>
+                <td data-row="2" data-column="5"></td>
+                <td data-row="2" data-column="6"></td>
+                <td data-row="2" data-column="7"></td>
+            </tr>
+            <tr>
+                <td data-row="3" data-column="0"></td>
+                <td data-row="3" data-column="1"></td>
+                <td data-row="3" data-column="2"></td>
+                <td data-row="3" data-column="3"></td>
+                <td data-row="3" data-column="4"></td>
+                <td data-row="3" data-column="5"></td>
+                <td data-row="3" data-column="6"></td>
+                <td data-row="3" data-column="7"></td>
+            </tr>
+            <tr>
+                <td data-row="4" data-column="0"></td>
+                <td data-row="4" data-column="1"></td>
+                <td data-row="4" data-column="2"></td>
+                <td data-row="4" data-column="3"></td>
+                <td data-row="4" data-column="4"></td>
+                <td data-row="4" data-column="5"></td>
+                <td data-row="4" data-column="6"></td>
+                <td data-row="4" data-column="7"></td>
+            </tr>
+            <tr>
+                <td data-row="5" data-column="0"></td>
+                <td data-row="5" data-column="1"></td>
+                <td data-row="5" data-column="2"></td>
+                <td data-row="5" data-column="3"></td>
+                <td data-row="5" data-column="4"></td>
+                <td data-row="5" data-column="5"></td>
+                <td data-row="5" data-column="6"></td>
+                <td data-row="5" data-column="7"></td>
+            </tr>
+            <tr>
+                <td data-row="6" data-column="0"></td>
+                <td data-row="6" data-column="1"></td>
+                <td data-row="6" data-column="2"></td>
+                <td data-row="6" data-column="3"></td>
+                <td data-row="6" data-column="4"></td>
+                <td data-row="6" data-column="5"></td>
+                <td data-row="6" data-column="6"></td>
+                <td data-row="6" data-column="7"></td>
+            </tr>
+            <tr>
+                <td data-row="7" data-column="0"></td>
+                <td data-row="7" data-column="1"></td>
+                <td data-row="7" data-column="2"></td>
+                <td data-row="7" data-column="3"></td>
+                <td data-row="7" data-column="4"></td>
+                <td data-row="7" data-column="5"></td>
+                <td data-row="7" data-column="6"></td>
+                <td data-row="7" data-column="7"></td>
+            </tr>
+        </tbody>
+    </table>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script>
+        $('td').on('click', function () {
+            var cell = $(this);
+            var row = cell.data('row');
+            var col = cell.data('column');
+            $.getJSON('http://localhost:3000/turn-on/' + row + '/' + col, function (data) {
+                if (data.isOn) {
+                    cell.addClass('red');
+                }
+                else {
+                    cell.removeClass('red');
+                }
+            });
+        });
+
+        $('#clear-all').on('click', function () {
+            $.getJSON('http://localhost:3000/clear', function () {
+                $('td').removeClass('red');
+            });
+        });
+    </script>
+</body>
+</html>
